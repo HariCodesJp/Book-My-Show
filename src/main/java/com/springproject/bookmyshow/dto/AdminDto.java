@@ -1,10 +1,4 @@
 package com.springproject.bookmyshow.dto;
-
-
-
-import com.springproject.bookmyshow.entity.MovieEntity;
-
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +9,7 @@ public class AdminDto
 	private int adminId;
 	private String adminName;
 	private String adminEmail;
+	private long adminContact;
+	private String adminPassword;
 	
-	@OneToMany
-	MovieEntity dto;
 }

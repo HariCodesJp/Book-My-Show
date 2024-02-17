@@ -17,30 +17,27 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
+@Entity
+@Component
 @Getter
 @Setter
-@Component
-@Entity
-public class UserEntity 
+public class TheatreAdminEntity 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int userId;
-	@NotNull(message = "User Name Cannot be null")
-	@NotBlank(message = "User Name Cannot be Blank")
-	private String userName;
+	private int thetareAdminId;
+	@NotNull(message = "Theatre Name Cannot be null")
+	@NotBlank(message = "Theatre Name Cannot be Blank")
+	private String theatreAdminName;
 	@Positive
 	@Min(value = 6000000000l)
 	@Max(value = 9999999999l)
-	private long userContact;
-	@Email(message = "User Email Cannot be Null")
-	private String userEmail;
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,20}$",message = "password must be min 4 and max 20 length containing atleast 1 uppercase, 1 lowercase, 1 special character and 1 digit ")
-	private String userPassword;
-	
+	private long theatreAdminContact;
+	@Email(message = "Email Should be Written Properly")
+	private String theatreAdminEmail;
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,20}$",message = "password must be min 4 and max 12 length containing atleast 1 uppercase, 1 lowercase, 1 special character and 1 digit ")
+	private String theatreAdminPassword;
 	@OneToOne(cascade = CascadeType.ALL)
-	TicketsEntity ticket;
+	TheatreEntity theatre;
 }

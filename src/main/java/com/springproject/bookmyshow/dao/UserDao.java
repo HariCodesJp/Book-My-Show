@@ -1,5 +1,6 @@
 package com.springproject.bookmyshow.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,15 @@ public class UserDao
 			return user;
 		}
 		return null;
+	}
+	
+	public List<UserEntity> findAllUser(){
+		return userRepo.findAll();
+	}
+	
+	public UserEntity findByUserEmail(String userEmail)
+	{
+		return userRepo.findByEmail(userEmail);
 	}
 	
 }
