@@ -2,6 +2,7 @@ package com.springproject.bookmyshow.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +26,7 @@ import jakarta.validation.Valid;
 @RequestMapping("movie")
 public class MovieController 
 {
-	
+	@Autowired
 	MovieService movieService;
 	
 	@PostMapping("savemovie")
@@ -40,7 +41,7 @@ public class MovieController
 		return movieService.findMovie(movieId);
 	}
 	
-	@PutMapping("assignSeatsToMovies")
+	@PutMapping("assignseatstomovies")
 	public  ResponseEntity<ResponseStructure<MovieEntity>> assignSeatsToMovies(@RequestParam int movieId,@RequestBody List<Integer> seatIds) 
 	{
 		return movieService.assignSeatsToMovies(movieId, seatIds);
@@ -57,12 +58,12 @@ public class MovieController
 		return movieService.updateMovie(movie, movieId);
 	}
 	
-	@GetMapping("findAllMovie")
+	@GetMapping("findallmovie")
 	public ResponseEntity<ResponseStructure<List<MovieEntity>>> findAllMovie(){
 		return movieService.findAllMovie();
 	}
 	
-	@GetMapping("findSeatAvailability")
+	@GetMapping("findseatavailability")
 	public ResponseEntity<ResponseStructure<List<SeatsEntity>>> findSeatAvailability(@RequestParam int movieId,@RequestParam SeatTypes seatType) {
 		return movieService.findSeatAvailability(movieId, seatType);
 	}

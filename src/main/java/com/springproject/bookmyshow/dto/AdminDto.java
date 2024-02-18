@@ -1,4 +1,8 @@
 package com.springproject.bookmyshow.dto;
+import java.util.List;
+
+import com.springproject.bookmyshow.entity.TheatreEntity;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +14,6 @@ public class AdminDto
 	private String adminName;
 	private String adminEmail;
 	private long adminContact;
-	private String adminPassword;
+	List<TheatreEntity> theatre;
 	
 }

@@ -6,8 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,11 +23,8 @@ public class SeatsEntity
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int seatId;
-	@NotNull(message = "Seat Number Cannot be null")
-	@NotBlank(message = "Seat Number Cannot be Blank")
-	private String seatNumber;
-	@NotNull(message = "Seat Availability Cannot be null")
-	@NotBlank(message = "Seat Availability Cannot be Blank")
+	@Positive
+	private int seatNumber;
 	private boolean seatAvailability;
 	private SeatTypes type;
 }

@@ -58,8 +58,9 @@ public class UserController
 		return uService.deleteUser(userId);
 	}
 	
-	@GetMapping("findAllUser")
-	public ResponseEntity<ResponseStructure<List<UserDto>>> findAllUser(){
+	@GetMapping("findalluser")
+	public ResponseEntity<ResponseStructure<List<UserDto>>> findAllUser()
+	{
 		return uService.findAllUser();
 	}
 }

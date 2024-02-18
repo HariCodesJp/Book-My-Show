@@ -12,7 +12,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,11 +32,7 @@ public class TicketsEntity
 	private LocalTime movieStartTime;
 	private LocalTime movieEndTime;
 	private String movieLanguage;
-	@NotNull(message = "Booking Date Cannot be null")
-	@NotBlank(message = "Booking Date Cannot be Blank")
 	private LocalDate bookingDate;
-	@NotNull(message = "Total Ticket Price Cannot be null")
-	@NotBlank(message = "Total Ticket Price Cannot be Blank")
 	private double totalTicketPrice;
 	@ManyToMany(cascade = CascadeType.ALL)
 	private  List<SeatsEntity> ticketSeats;

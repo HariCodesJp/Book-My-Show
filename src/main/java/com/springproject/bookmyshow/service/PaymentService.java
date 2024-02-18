@@ -13,7 +13,7 @@ import com.springproject.bookmyshow.util.ResponseStructure;
 @Service
 public class PaymentService 
 {
-	
+	@Autowired
 	PaymentDao pDao;
 	
 	//To Save Payment Details

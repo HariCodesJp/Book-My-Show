@@ -37,17 +37,11 @@ public class MovieEntity
 	@NotNull(message = "Movie Genre Cannot be null")
 	@NotBlank(message = "Movie Genre Cannot be Blank")
 	private String movieGenre;
-	@NotNull(message = "Movie Release Date Cannot be null")
-	@NotBlank(message = "Movie Release Date Cannot be Blank")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate movieReleaseDate;
 	@DateTimeFormat(pattern = "HH:mm:ss")
-	@NotNull(message = "Movie Start Time Cannot be null")
-	@NotBlank(message = "Movie Start Time Cannot be Blank")
 	private LocalTime movieStartTime;
 	@DateTimeFormat(pattern = "HH:mm:ss")
-	@NotNull(message = "Movie End Time Cannot be null")
-	@NotBlank(message = "Movie End Time Cannot be Blank")
 	private LocalTime movieEndTime;
 	@Positive
 	private int totalNoOfSeats;

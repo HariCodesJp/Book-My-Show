@@ -54,4 +54,16 @@ public class SeatsDao
 		}
 		return null;
 	}
+	
+	public SeatsEntity updateAdmin(SeatsEntity seat,int seatId)
+	{
+		SeatsEntity seats = findSeats(seatId);
+		if( seats != null)
+		{
+			seats.setSeatId(seatId);
+			return seatsRepo.save(seats);
+		}
+		
+		return null;
+	}
 }

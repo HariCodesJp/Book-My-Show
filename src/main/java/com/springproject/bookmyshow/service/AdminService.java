@@ -17,6 +17,8 @@ import com.springproject.bookmyshow.entity.AdminEntity;
 import com.springproject.bookmyshow.entity.TheatreEntity;
 import com.springproject.bookmyshow.entity.UserEntity;
 import com.springproject.bookmyshow.exception.AdminNotFound;
+import com.springproject.bookmyshow.exception.EmailMismatch;
+import com.springproject.bookmyshow.exception.PasswordMismatch;
 import com.springproject.bookmyshow.exception.TheatreNotFound;
 import com.springproject.bookmyshow.exception.UserNotFound;
 import com.springproject.bookmyshow.repo.TheatreRepo;
@@ -78,10 +80,14 @@ public class AdminService
 	{
 		
 		List<UserEntity> dto = userRepo.findAll();
-		if(dto.contains(dto))
+		if(!dto.isEmpty())
 		{
 			List<UserDto> userDto = new ArrayList<UserDto>();
 			ModelMapper mapper = new ModelMapper();
+			for (UserEntity entity : dto) 
+			{
+		     userDto.add(mapper.map(entity, UserDto.class));
+		    }
 			mapper.map(dto, userDto);
 			ResponseStructure<List<UserDto>> structure = new ResponseStructure<List<UserDto>>();
 			structure.setMessage("All User Deatils");
@@ -147,10 +153,14 @@ public class AdminService
 	public ResponseEntity<ResponseStructure<AdminEntity>> updateAdmin(AdminEntity admin,int adminId)
 	{
 		AdminEntity adminOne = adminDao.findAdmin(adminId);
+		List<TheatreEntity> theatre = theatreRepo.findAll();
 		if(adminOne != null)
 		{
 			ResponseStructure<AdminEntity> structure = new ResponseStructure<AdminEntity>();
+			adminOne.setTheatre(theatre);
 			AdminEntity adminDetails = adminDao.updateAdmin(adminOne, adminId);
+		
+			
 			structure.setMessage("Admin Details Updated");
 			structure.setStatus(HttpStatus.OK.value());
 			structure.setData(adminDetails);
@@ -162,10 +172,10 @@ public class AdminService
 	}
 	
 	//Assign Theatre details to Admin
-	public ResponseEntity<ResponseStructure<AdminDto>> assignTheatreToAdmin(int adminId,List<Integer> theatre)
+	public ResponseEntity<ResponseStructure<AdminDto>> assignTheatreToAdmin(int adminId,List<Integer> theatreId)
 	{
 		AdminEntity admin = adminDao.findAdmin(adminId);
-		List<TheatreEntity> theatreAll = theatreRepo.findAllById(theatre);
+		List<TheatreEntity> theatreAll = theatreRepo.findAllById(theatreId);
 		if(admin != null)
 		{
 			if(theatreAll != null)
@@ -182,9 +192,33 @@ public class AdminService
 			
 			return new ResponseEntity<ResponseStructure<AdminDto>>(structure,HttpStatus.OK);
 			}		
-			throw new TheatreNotFound("Theatre Details Does Not Exist In This Id");
+			throw new TheatreNotFound("Theatre Details Does Not Exist");
 		}
 		throw new AdminNotFound("Admin Details Does Not Exist In This Id");
 		}
+	
+	//Admin Login
+	public ResponseEntity<ResponseStructure<AdminDto>> findByEmail(String adminEmail,String adminPassword)
+	{
+		
+		AdminEntity admin = adminDao.findByAdminEmail(adminEmail);
+		if(admin != null) 
+		{
+			if(admin.getAdminPassword().equals(adminPassword))
+			{
+				AdminDto aDto=new AdminDto();
+				ModelMapper mapper=new ModelMapper();
+				mapper.map(admin, aDto);
+				ResponseStructure<AdminDto> structure=new ResponseStructure<AdminDto>();
+				structure.setMessage("User login success");
+				structure.setStatus(HttpStatus .FOUND.value());
+				structure.setData(aDto);
+				return new ResponseEntity<ResponseStructure<AdminDto>> (structure,HttpStatus.FOUND);
+			}
+		
+			throw new PasswordMismatch("The Password you have entered is Mismatched");
+		}
+		throw new EmailMismatch("The Email you have entered is mismatched");
+	}
 	
 }

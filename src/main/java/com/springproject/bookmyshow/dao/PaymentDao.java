@@ -3,10 +3,12 @@ package com.springproject.bookmyshow.dao;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.springproject.bookmyshow.entity.PaymentEntity;
 import com.springproject.bookmyshow.repo.PaymentRepo;
 
+@Repository
 public class PaymentDao 
 {
 	@Autowired

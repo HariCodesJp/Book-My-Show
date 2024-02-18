@@ -34,8 +34,8 @@ public class MovieDao
 		MovieEntity movieOne = findMovie(movieId);
 		if(movieOne != null)
 		{
-			movieOne.setMovieId(movieId);
-			return movieOne;
+			movie.setMovieId(movieId);
+			return movieRepo.save(movie);
 		}
 		return null;
 	}

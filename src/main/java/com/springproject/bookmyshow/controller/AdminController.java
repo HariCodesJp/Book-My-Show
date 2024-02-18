@@ -37,7 +37,7 @@ public class AdminController
 	}
 	
 	@GetMapping("findadmin")
-	public ResponseEntity<ResponseStructure<AdminDto>> findAdmin(@RequestBody int adminId)
+	public ResponseEntity<ResponseStructure<AdminDto>> findAdmin(@RequestParam int adminId)
 	{
 		return adminService.findAdmin(adminId);
 	}
@@ -60,9 +60,15 @@ public class AdminController
 		return adminService.findAllUser();
 	}
 	
-	@PutMapping("assignTheatresToAdmin")
-	public ResponseEntity<ResponseStructure<AdminDto>> assignTheatresToAdmin(@RequestParam int adminId,@RequestBody List<Integer> theatreIds){
-		return adminService.assignTheatreToAdmin(adminId, theatreIds);
+	@PutMapping("assigntheatrestoadmin")
+	public ResponseEntity<ResponseStructure<AdminDto>> assignTheatresToAdmin(@RequestParam int adminId,@RequestBody List<Integer> theatreId){
+		return adminService.assignTheatreToAdmin(adminId, theatreId);
+	}
+	
+	@GetMapping("adminlogin")
+	public ResponseEntity<ResponseStructure<AdminDto>> adminLogin(@RequestParam String adminEmail,@RequestParam String adminPassword)
+	{
+		return adminService.findByEmail(adminEmail, adminPassword);
 	}
 	
 	

@@ -26,32 +26,39 @@ public class TheatreAdminController
 	@Autowired
 	TheatreAdminService taService;
 	
-	@PostMapping("saveadmin")
+	@PostMapping("savetheatreadmin")
 	public ResponseEntity<ResponseStructure<TheatreAdminDto>> saveAdmin( @Valid @RequestBody TheatreAdminEntity theatreAdmin,BindingResult result)
 	{
-		return taService.saveAdmin(theatreAdmin);
+		return taService.saveTheatreAdmin(theatreAdmin);
 	}
 	
-	@GetMapping("findadmin")
+	@GetMapping("findtheatreadmin")
 	public ResponseEntity<ResponseStructure<TheatreAdminDto>> findAdmin(@RequestParam int  theatreAdminId){
-		return taService.findAdmin(theatreAdminId);
+		return taService.findTheatreAdmin(theatreAdminId);
 	}
 	
-	@PutMapping("assignTheatreToTheatreAdmin")
+	
+	@PutMapping("assigntheatretotheatreAdmin")
 	public ResponseEntity<ResponseStructure<TheatreAdminDto>> assignTheatreToTheatreAdmin(@RequestParam int  theatreAdminId,@RequestParam int  theatreId)
 	{
 		return taService.assignTheatreToTheatreAdmin(theatreAdminId, theatreId);
 	}
 
-	@PutMapping("updateadmin")
+	@PutMapping("updatetheatreadmin")
 	public ResponseEntity<ResponseStructure<TheatreAdminDto>> updateAdmin(@Valid @RequestBody TheatreAdminEntity theatreAdmin,@RequestParam int theatreAdminId,BindingResult result)
 	{
-		return taService.updateAdmin(theatreAdmin, theatreAdminId);
+		return taService.updateTheatreAdmin(theatreAdmin, theatreAdminId);
 	}
 	
-	@DeleteMapping("deleteadmin")
+	@DeleteMapping("deletetheatreadmin")
 	public ResponseEntity<ResponseStructure<TheatreAdminDto>> deleteAdmin(@RequestBody int theatreAdminId)
 	{
-		return taService.deleteAdmin(theatreAdminId);
+		return taService.deleteTheatreAdmin(theatreAdminId);
+	}
+	
+	@GetMapping("theatreadminlogin")
+	public ResponseEntity<ResponseStructure<TheatreAdminDto>> theatreAdminLogin(@RequestParam String theatreAdminEmail,@RequestParam String theatreAdminPassword)
+	{
+		return taService.findByTheatreAdminEmail(theatreAdminEmail, theatreAdminPassword);
 	}
 }

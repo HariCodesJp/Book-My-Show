@@ -27,7 +27,7 @@ public class SeatsController
 	@Autowired
 	SeatsService sService;
 	
-	@PostMapping("saveSeat")
+	@PostMapping("saveseat")
 	public ResponseEntity<ResponseStructure<SeatsEntity>> saveSeat(@Valid @RequestBody SeatsEntity seat,BindingResult result)
 	{
 		return sService.saveSeat(seat);
@@ -43,13 +43,13 @@ public class SeatsController
 		return sService.deleteSeat(seatId);
 	}
 	
-	@PutMapping("updateSeat")
+	@PutMapping("updateseat")
 	public ResponseEntity<ResponseStructure<SeatsEntity>> updateSeat(@Valid @RequestBody SeatsEntity seat,@RequestParam int seatId,BindingResult result)
 	{
 		return sService.updateSeat(seat, seatId);
 	}
 	
-	@GetMapping("findAllSeat")
+	@GetMapping("findallseat")
 	public ResponseEntity<ResponseStructure<List<SeatsEntity>>> findAllSeat(){
 		return sService.findAllSeat();
 	}

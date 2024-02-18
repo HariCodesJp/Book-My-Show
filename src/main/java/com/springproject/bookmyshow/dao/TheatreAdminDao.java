@@ -3,17 +3,15 @@ package com.springproject.bookmyshow.dao;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import com.springproject.bookmyshow.entity.AdminEntity;
 import com.springproject.bookmyshow.entity.TheatreAdminEntity;
-import com.springproject.bookmyshow.repo.AdminRepo;
 import com.springproject.bookmyshow.repo.TheatreAdminRepo;
-import com.springproject.bookmyshow.repo.TheatreRepo;
 
+@Repository
 public class TheatreAdminDao 
 {
-@Autowired
-	
+	@Autowired
 	TheatreAdminRepo theatreAdminRepo;
 	
 	public TheatreAdminEntity saveTheatreAdmin(TheatreAdminEntity admin)
@@ -47,9 +45,14 @@ public class TheatreAdminDao
 		TheatreAdminEntity adminOne = findTheatreAdmin(theatreAdminId);
 		if(adminOne != null)
 		{
-			adminOne.setThetareAdminId(theatreAdminId);
-			return theatreAdminRepo.save(adminOne);
+			admin.setTheatreAdminId(theatreAdminId);
+			return theatreAdminRepo.save(admin);
 		}
 		return null;
+	}
+	
+	public TheatreAdminEntity findByTheatreAdminEmail(String theatreAdminEmail)
+	{
+		return theatreAdminRepo.findTheatreAdminByEmail(theatreAdminEmail);
 	}
 }

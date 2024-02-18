@@ -26,7 +26,7 @@ public class TheatreAdminEntity
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int thetareAdminId;
+	private int theatreAdminId;
 	@NotNull(message = "Theatre Name Cannot be null")
 	@NotBlank(message = "Theatre Name Cannot be Blank")
 	private String theatreAdminName;

@@ -46,9 +46,14 @@ public class AdminDao
 		AdminEntity adminOne = findAdmin(adminId);
 		if(adminOne != null)
 		{
-			adminOne.setAdminId(adminId);
-			return adminRepo.save(adminOne);
+			admin.setAdminId(adminId);
+			return adminRepo.save(admin);
 		}
 		return null;
+	}
+	
+	public AdminEntity findByAdminEmail(String adminEmail)
+	{
+		return adminRepo.findAdminEmail(adminEmail);
 	}
 }

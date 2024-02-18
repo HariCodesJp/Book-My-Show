@@ -53,7 +53,6 @@ public class UserService
 		if(user != null)
 		{
 			mapper.map(userDao.findUser(userId), dto);
-			
 			ResponseStructure<UserDto> structure = new ResponseStructure<UserDto>();
 			structure.setMessage("User Details");
 			structure.setStatus(HttpStatus.FOUND.value());
@@ -86,10 +85,10 @@ public class UserService
 	public ResponseEntity<ResponseStructure<UserEntity>> updateUser(UserEntity user,int userId)
 	{
 		UserEntity userOne = userDao.findUser(userId);
-		if(user != null)
+		if(userOne != null)
 		{
 			ResponseStructure<UserEntity> structure = new ResponseStructure<UserEntity>();
-			UserEntity userTwo = userDao.updateUser(userOne, userId);
+			UserEntity userTwo = userDao.updateUser(user, userId);
 			
 			structure.setMessage("User Details Updated");
 			structure.setStatus(HttpStatus.OK.value());
@@ -101,16 +100,24 @@ public class UserService
 	}
 	
 	//To Find All User Details
-	public ResponseEntity<ResponseStructure<List<UserDto>>> findAllUser(){
-		List<UserDto> uDto=new ArrayList<UserDto>();
+	public ResponseEntity<ResponseStructure<List<UserDto>>> findAllUser()
+	{
+		List<UserEntity> dtoList = userRepo.findAll();
+		if(!dtoList.isEmpty())
+		{
+		List<UserDto> userDtoList=new ArrayList<>();
 		ModelMapper mapper=new ModelMapper();
-		List<UserEntity> userList=userDao.findAllUser();
-		mapper.map(userList, uDto);
+		for (UserEntity entity : dtoList) 
+		{
+	     userDtoList.add(mapper.map(entity, UserDto.class));
+	    }
 		ResponseStructure<List<UserDto>> structure=new ResponseStructure<List<UserDto>>();
-		structure.setMessage("find all User success");
+		structure.setMessage("User Details");
 		structure.setStatus(HttpStatus .FOUND.value());
-		structure.setData(uDto);;
+		structure.setData(userDtoList);;
 		return new ResponseEntity<ResponseStructure<List<UserDto>>>(structure,HttpStatus.FOUND);
+		}
+		throw new UserNotFound("User Details Not Present");
 	}
 	
 	public ResponseEntity<ResponseStructure<UserDto>> findByEmail(String userEmail,String userPassword){

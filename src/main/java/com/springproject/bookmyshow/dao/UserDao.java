@@ -38,7 +38,7 @@ public class UserDao
 		
 		if(userOne!= null)
 		{
-			userOne.setUserId(userId);
+			user.setUserId(userId);
 			return userRepo.save(user);
 			
 		}

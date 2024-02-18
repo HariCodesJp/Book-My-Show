@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.springproject.bookmyshow.dao.SeatsDao;
+import com.springproject.bookmyshow.entity.MovieEntity;
 import com.springproject.bookmyshow.entity.SeatsEntity;
 import com.springproject.bookmyshow.exception.SeatNotFound;
 import com.springproject.bookmyshow.util.ResponseStructure;
@@ -46,7 +47,7 @@ public class SeatsService
 	//To delete seat details
 	public ResponseEntity<ResponseStructure<SeatsEntity>> deleteSeat(int seatId) 
 	{
-		SeatsEntity seat=sDao.findSeats(seatId);
+		SeatsEntity seat = sDao.findSeats(seatId);
 		if(seat != null) 
 		{
 		ResponseStructure<SeatsEntity> structure=new ResponseStructure<SeatsEntity>();
@@ -61,10 +62,11 @@ public class SeatsService
 	//To Update Seat Details
 	public ResponseEntity<ResponseStructure<SeatsEntity>> updateSeat(SeatsEntity seat,int seatId) 
 	{
-		SeatsEntity exSeat=sDao.updateSeat(seat,seatId);
-		if(exSeat != null) 
+		SeatsEntity seats = sDao.findSeats(seatId);
+		if(seats != null) 
 		{
 		ResponseStructure<SeatsEntity> structure=new ResponseStructure<SeatsEntity>();
+		SeatsEntity exSeat=sDao.updateSeat(seat,seatId);
 		structure.setMessage("seat update success");
 		structure.setStatus(HttpStatus .OK.value());
 		structure.setData(exSeat);
@@ -76,11 +78,15 @@ public class SeatsService
 	//To Find All Seats
 	public ResponseEntity<ResponseStructure<List<SeatsEntity>>> findAllSeat() 
 	{
-		ResponseStructure<List<SeatsEntity>> structure=new ResponseStructure<List<SeatsEntity>>();
 		List<SeatsEntity> seatList=sDao.findAllSeat();
+		if(seatList != null)
+		{
+		ResponseStructure<List<SeatsEntity>> structure=new ResponseStructure<List<SeatsEntity>>();
 		structure.setMessage(" find all seat success");
 		structure.setStatus(HttpStatus .FOUND.value());
 		structure.setData(seatList);
 		return new ResponseEntity<ResponseStructure<List<SeatsEntity>>>(structure,HttpStatus.FOUND);
+	}
+		throw new SeatNotFound("Seats Details doesn't present");
 	}
 }
