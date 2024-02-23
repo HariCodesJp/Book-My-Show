@@ -178,7 +178,9 @@ public class AdminService
 		List<TheatreEntity> theatreAll = theatreRepo.findAllById(theatreId);
 		if(admin != null)
 		{
-			if(theatreAll != null)
+			for(TheatreEntity theatre : theatreAll)
+			{
+			if(theatre != null)
 			{
 			admin.setTheatre(theatreAll);
 			AdminDto dto = new AdminDto();
@@ -192,6 +194,7 @@ public class AdminService
 			
 			return new ResponseEntity<ResponseStructure<AdminDto>>(structure,HttpStatus.OK);
 			}		
+			}
 			throw new TheatreNotFound("Theatre Details Does Not Exist");
 		}
 		throw new AdminNotFound("Admin Details Does Not Exist In This Id");

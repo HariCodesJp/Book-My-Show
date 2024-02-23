@@ -23,9 +23,7 @@ import com.springproject.bookmyshow.exception.EmailMismatch;
 import com.springproject.bookmyshow.exception.PasswordMismatch;
 import com.springproject.bookmyshow.exception.SeatNotFound;
 import com.springproject.bookmyshow.exception.TicketNotFound;
-import com.springproject.bookmyshow.exception.UserNotFound;
 import com.springproject.bookmyshow.repo.SeatsRepo;
-import com.springproject.bookmyshow.repo.UserRepo;
 import com.springproject.bookmyshow.util.ResponseStructure;
 
 @Service
@@ -108,18 +106,18 @@ public class TicketsService
 	//To Check Available Seats
 	public List<SeatsEntity> bookSeat(List<SeatsEntity> availableSeats, List<Integer> seatIds, int movieId)
 	{
-		List<SeatsEntity> seats=new ArrayList<SeatsEntity>();
+		List<SeatsEntity> seats = new ArrayList<SeatsEntity>();
 		for (SeatsEntity seatAvailable : availableSeats) 
 		{
 			for (Integer integer : seatIds) 
 			{
-				if(seatAvailable.getSeatId()==integer) 
+				if(seatAvailable.getSeatId()==integer && seatAvailable.isSeatAvailability()==true) 
 				{
 					seats.add(seatAvailable);
 					MovieEntity movie=mDao.findMovie(movieId);
 					movie.setTotalNoOfSeats(movie.getTotalNoOfSeats()-1);
-					mDao.updateMovie(movie, movieId);
 					seatAvailable.setSeatAvailability(false);
+					mDao.updateMovie(movie, movieId);
 					sDao.updateSeat(seatAvailable, seatAvailable.getSeatId());
 				}
 			}
@@ -133,13 +131,13 @@ public class TicketsService
 		UserEntity user=userLogin(userEmail, userPassword);
 		if(user != null)
 		{
-		TicketsEntity ticket=new TicketsEntity();
-		List<SeatsEntity> availableSeat=mService.findSeatsAvailability(movieId, seatType);
+		List<SeatsEntity> availableSeat = mService.findSeatsAvailability(movieId, seatType, seatIds);
 		if(availableSeat != null) 
 		{
 		List<SeatsEntity> bookedSeats=bookSeat(availableSeat, seatIds,movieId);
-		if(!bookedSeats.isEmpty()) 
+		if(bookedSeats != null) 
 		{
+		TicketsEntity ticket=new TicketsEntity();
 		PaymentEntity payment= processPayement(bookedSeats, bookingDate,paymentMethod);
 		ticket.setBookingDate(bookingDate);
 		MovieEntity movie=mDao.findMovie(movieId);
@@ -162,7 +160,7 @@ public class TicketsService
 		}
 		throw new  SeatNotFound("All Seats Are Booked for this Movie");
 		}
-		throw new  SeatNotFound("Selected Seats are Booked,Please Try Other Seats");
+		throw new  SeatNotFound("Selected Seat Doesn't Available for this Movie");
 		}
 		throw new PasswordMismatch("User Email Or Password is Mismatching please provide valid Login Credential");
 	}
@@ -239,6 +237,7 @@ public class TicketsService
 		payment.setPaymentMethod(paymentMethod);
 		payment.setTicketPrice(amount);
 		PaymentEntity newPayment=pDao.savePayment(payment);
+		System.out.println(newPayment.toString());
 		return newPayment;
 	}
 	

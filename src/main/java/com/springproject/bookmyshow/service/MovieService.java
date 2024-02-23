@@ -105,28 +105,65 @@ public class MovieService
 		throw new MovieNotFound("Movie Deatils does not present");
 	}
 	
-	//To find Seat Availability
-	public List<SeatsEntity> findSeatsAvailability(int movieId,SeatTypes seatType) 
+	//To find Seat Availability in Ticket Booking Service
+	public List<SeatsEntity> findSeatsAvailability(int movieId, SeatTypes seatType,List<Integer> seatId) 
 	{
-		MovieEntity movie=mDao.findMovie(movieId);
-		if(movie != null)
-		{
-		List<SeatsEntity> seatList=movie.getSeatEntity();
-		List<SeatsEntity> seatsList=new ArrayList<SeatsEntity>();
-		for (SeatsEntity seat : seatList) 
-		{
-			if(seat.isSeatAvailability()==true && seat.getType()==seatType) 
-			{
-				seatsList.add(seat);
-			}
-		}
-		return seatsList;
-		}
-		throw new MovieNotFound("Seat Doesn't Available for this movie");
+        MovieEntity movie = mDao.findMovie(movieId);
+        List<SeatsEntity> seats = sDao.findAllSeat();
+        if (movie != null) 
+        {
+        	if(seats != null) {
+        		
+        	
+            List<SeatsEntity> seatList = sRepo.findAllById(seatId);
+            List<SeatsEntity> availableSeats = new ArrayList<>();
+            List<SeatsEntity> unavailableSeats = new ArrayList<>();
+        	
+            for (SeatsEntity seat : seatList)
+            {
+                
+                    if (seat != null && seat.getType() == seatType) 
+                    {
+                        if (seat.isSeatAvailability()) 
+                        {
+                            availableSeats.add(seat);
+                        } else 
+                        {
+                            unavailableSeats.add(seat);
+                        }
+                    }
+            }
+            
+            if (availableSeats.isEmpty()) 
+            {
+                String message = "No seats available for movie " + movieId + " of type " + seatType;
+                if (!unavailableSeats.isEmpty()) 
+                {
+                    message += ". The following seats are unavailable: ";
+                    for (int i = 0; i < unavailableSeats.size(); i++) 
+                    {
+                        message += unavailableSeats.get(i).getSeatId();
+                    
+                    if(i < unavailableSeats.size() -1)
+                    {
+                    	message+=",";
+                    }
+                  }
+                }
+                throw new SeatNotFound(message);
+            }
+            
+            return availableSeats;
+        }
+        throw new MovieNotFound("Movie not found");
+    }
+        throw new SeatNotFound("Seat Not Found");
 	}
+
+
 	
-	//Find Seat Availabilty
-	public  ResponseEntity<ResponseStructure<List<SeatsEntity>>> findSeatAvailability(int movieId,SeatTypes seatType) 
+	//Find All Seat Availabilty
+	public  ResponseEntity<ResponseStructure<List<SeatsEntity>>> findAllSeatAvailability(int movieId,SeatTypes seatType) 
 	{
 		MovieEntity  movie=mDao.findMovie(movieId);
 		if(movie != null)

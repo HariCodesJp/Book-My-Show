@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.springproject.bookmyshow.dao.SeatsDao;
-import com.springproject.bookmyshow.entity.MovieEntity;
 import com.springproject.bookmyshow.entity.SeatsEntity;
 import com.springproject.bookmyshow.exception.SeatNotFound;
 import com.springproject.bookmyshow.util.ResponseStructure;

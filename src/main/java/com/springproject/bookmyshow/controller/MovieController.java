@@ -64,7 +64,16 @@ public class MovieController
 	}
 	
 	@GetMapping("findseatavailability")
-	public ResponseEntity<ResponseStructure<List<SeatsEntity>>> findSeatAvailability(@RequestParam int movieId,@RequestParam SeatTypes seatType) {
-		return movieService.findSeatAvailability(movieId, seatType);
+	public ResponseEntity<ResponseStructure<List<SeatsEntity>>> findAllSeatAvailability(@RequestParam int movieId,@RequestParam SeatTypes seatType) 
+	{
+		return movieService.findAllSeatAvailability(movieId, seatType);
 	}
+
+	
+	@GetMapping("findallseat")
+	public List<SeatsEntity> findSeatsAvailability(@RequestParam int movieId,@RequestParam SeatTypes seatType,@RequestBody List<Integer> seatId) 
+	{
+		return movieService.findSeatsAvailability(movieId, seatType, seatId);
+	}
+	
 }
