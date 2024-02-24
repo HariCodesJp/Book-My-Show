@@ -34,7 +34,7 @@ public class AdminEntity
 	@NotNull(message = "Admin Name Cannot be null")
 	@NotBlank(message = "Admin Name Cannot be Blank")
 	private String adminName;
-	@Email(message = "Admin Email Cannot Be Null")
+	@Email(message = "Admin Email Is Invalid")
 	private String adminEmail;
 	@Positive
 	@Min(value = 6000000000l)

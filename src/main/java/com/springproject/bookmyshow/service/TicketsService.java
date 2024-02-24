@@ -137,7 +137,7 @@ public class TicketsService
 		List<SeatsEntity> bookedSeats=bookSeat(availableSeat, seatIds,movieId);
 		if(bookedSeats != null) 
 		{
-		TicketsEntity ticket=new TicketsEntity();
+		TicketsEntity ticket = new TicketsEntity();
 		PaymentEntity payment= processPayement(bookedSeats, bookingDate,paymentMethod);
 		ticket.setBookingDate(bookingDate);
 		MovieEntity movie=mDao.findMovie(movieId);

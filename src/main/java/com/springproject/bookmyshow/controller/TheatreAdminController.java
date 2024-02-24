@@ -51,7 +51,7 @@ public class TheatreAdminController
 	}
 	
 	@DeleteMapping("deletetheatreadmin")
-	public ResponseEntity<ResponseStructure<TheatreAdminDto>> deleteAdmin(@RequestBody int theatreAdminId)
+	public ResponseEntity<ResponseStructure<TheatreAdminDto>> deleteAdmin(@RequestParam int theatreAdminId)
 	{
 		return taService.deleteTheatreAdmin(theatreAdminId);
 	}

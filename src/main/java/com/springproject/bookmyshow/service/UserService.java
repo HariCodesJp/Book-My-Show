@@ -2,8 +2,6 @@ package com.springproject.bookmyshow.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,11 +45,12 @@ public class UserService
 	//To Find User Details
 	public ResponseEntity<ResponseStructure<UserDto>> findUser(int userId)
 	{
-		UserDto dto = new UserDto();
-		ModelMapper mapper = new ModelMapper();
-		Optional<UserEntity> user = userRepo.findById(userId);
+		
+		UserEntity user = userDao.findUser(userId);
 		if(user != null)
 		{
+			UserDto dto = new UserDto();
+			ModelMapper mapper = new ModelMapper();
 			mapper.map(userDao.findUser(userId), dto);
 			ResponseStructure<UserDto> structure = new ResponseStructure<UserDto>();
 			structure.setMessage("User Details");

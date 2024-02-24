@@ -12,7 +12,6 @@ import com.springproject.bookmyshow.repo.AdminRepo;
 public class AdminDao 
 {
 	@Autowired
-	
 	AdminRepo adminRepo;
 	
 	public AdminEntity saveAdmin(AdminEntity admin)
